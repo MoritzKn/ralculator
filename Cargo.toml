@@ -1,0 +1,12 @@
+[package]
+name = "ralculator"
+version = "0.1.0"
+authors = ["MoritzKn <moritz.kneilmann@gmx.de>"]
+
+[dependencies]
+#regex = "0.1"
+#num = "0.1"
+
+[dependencies.gtk]
+version = "0.1.0"
+features = ["v3_10"]

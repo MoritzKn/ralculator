@@ -1,0 +1,13 @@
+.calc-button {
+    background: rgba(60, 110, 180, .9);
+    color: #fff;
+}
+
+.num-pad label {
+    font-size: 14px;
+}
+
+.main-input {
+    font-size: 16px;
+    padding: 4px 2px;
+}
