@@ -44,7 +44,6 @@ fn setup_window(window: &Window) {
     }
 }
 
-// button_id, input_text, key aliases
 static STRAIGHT_INPUT_BUTTONS: [(&'static str, &'static str); 15] =
     [("num_1_button", "1"),
      ("num_2_button", "2"),
@@ -75,8 +74,8 @@ fn setup_inputs(builder: &Builder) {
         button.connect_clicked(move |_button| {
             let input_text = input_buffer.get_text();
 
+            input.set_position(input_text.len() as i32);
             input_buffer.insert_text(input_text.len() as u16, text);
-            input.set_position(input_buffer.get_text().len() as i32);
         });
     }
 
@@ -89,13 +88,6 @@ fn setup_inputs(builder: &Builder) {
             input.grab_focus();
             input.set_position(input_buffer.get_text().len() as i32);
         });
-    }
-
-
-    {
-        let input: Entry = builder.get_object("input").unwrap();
-        let input_buffer = input.get_buffer();
-        calculat(&input_buffer);
     }
 }
 
