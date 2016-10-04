@@ -1,4 +1,7 @@
 language: rust
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libgtk-3-dev
 rust:
   - stable
   - beta
