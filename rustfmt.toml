@@ -1,0 +1,5 @@
+max_width = 110
+ideal_width = 70
+format_strings = false
+match_block_trailing_comma = true
+match_wildcard_trailing_comma = false

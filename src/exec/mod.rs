@@ -20,7 +20,7 @@ impl OperationInput {
                 } else {
                     res
                 }
-            }
+            },
             OperationInput::Unset => panic!("[get] error unset operation input"),
         }
     }
@@ -34,10 +34,10 @@ impl OperationInput {
                 if new_sign == Sign::Minus {
                     *self = OperationInput::StaticValue(value * -1f64);
                 }
-            }
+            },
             OperationInput::SubOperation(_, ref mut sign) => {
                 *sign = sign.applay(new_sign);
-            }
+            },
             OperationInput::Unset => panic!("[add_sign] error unset operation input"),
         }
     }
@@ -101,7 +101,7 @@ impl Sign {
     fn applay(&self, sign: Sign) -> Sign {
         match sign {
             Sign::Minus => self.invert(),
-            _ => *self,
+            _ => *self
         }
     }
 }
@@ -153,7 +153,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                         "-" => OperationType::Subtract,
                         "*" => OperationType::Multiply,
                         "/" => OperationType::Divide,
-                        _ => panic!(format!("{} is not an operator", t.content)),
+                        _ => panic!(format!("{} is not an operator", t.content))
                     };
 
                     state = State::OperatorSet;
@@ -161,24 +161,24 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                     let sign_optional = match t.content.as_ref() {
                         "+" => Option::Some(Sign::Plus),
                         "-" => Option::Some(Sign::Minus),
-                        _ => Option::None,
+                        _ => Option::None
                     };
 
                     if let Some(sign) = sign_optional {
                         match state {
                             State::NothingDone => {
                                 left_num_sign = left_num_sign.applay(sign);
-                            }
+                            },
                             State::OperatorSet => {
                                 right_num_sign = right_num_sign.applay(sign);
-                            }
-                            _ => return Result::Err(("Unexpected operator", t.pos)),
+                            },
+                            _ => return Result::Err(("Unexpected operator", t.pos))
                         }
                     } else {
                         return Result::Err(("Unexpected operator", t.pos));
                     }
                 }
-            }
+            },
             TokenType::Number => {
                 let value = t.content.parse().unwrap();
 
@@ -187,7 +187,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                         left = OperationInput::StaticValue(value);
                         left.add_sign(left_num_sign);
                         state = State::LeftSet;
-                    }
+                    },
                     State::OperatorSet => {
                         if pos == tokens.len() - 1 {
                             right = OperationInput::StaticValue(value);
@@ -199,20 +199,19 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                             match to_operation(remaining) {
                                 Err((msg, pos)) => {
                                     return Result::Err((msg, pos));
-                                }
+                                },
                                 Ok(operation) => {
-                                    right = OperationInput::SubOperation(Box::new(operation),
-                                                                         right_num_sign);
-                                }
+                                    right = OperationInput::SubOperation(Box::new(operation), right_num_sign);
+                                },
                             }
                             state = State::RightSet;
                             break;
                         }
-                    }
-                    _ => return Result::Err(("Unexpected number", t.pos)),
+                    },
+                    _ => return Result::Err(("Unexpected number", t.pos))
                 }
-            }
-            TokenType::None => {}
+            },
+            TokenType::None => {},
         }
     }
 
@@ -242,6 +241,6 @@ pub fn exec_expression(expr_str: &str) -> Result<f64, (String, usize)> {
         Err((msg, pos)) => {
             println!("Error {}", msg);
             Result::Err((String::from(msg), pos))
-        }
+        },
     };
 }

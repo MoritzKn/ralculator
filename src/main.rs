@@ -34,33 +34,33 @@ fn setup_window(window: &Window) {
     match css.load_from_data(include_str!("main.css")) {
         Ok(_) => {
             let screen = window.get_display().unwrap().get_screen(0);
-            StyleContext::add_provider_for_screen(&screen,
-                                                  &css,
-                                                  STYLE_PROVIDER_PRIORITY_APPLICATION);
-        }
+            let provider = STYLE_PROVIDER_PRIORITY_APPLICATION;
+
+            StyleContext::add_provider_for_screen(&screen, &css, provider);
+        },
         Err(msg) => {
             println!("Error loading main.css {}", msg);
-        }
+        },
     }
 }
 
-static STRAIGHT_INPUT_BUTTONS: [(&'static str, &'static str); 15] =
-    [("num_1_button", "1"),
-     ("num_2_button", "2"),
-     ("num_3_button", "3"),
-     ("num_4_button", "4"),
-     ("num_5_button", "5"),
-     ("num_6_button", "6"),
-     ("num_7_button", "7"),
-     ("num_8_button", "8"),
-     ("num_9_button", "9"),
-     ("num_0_button", "0"),
-     ("divide_button", "/"),
-     ("add_button", "+"),
-     ("subtract_button", "-"),
-     ("multiply_button", "*"),
-     ("decimal_point_button", ".")];
+type ButtoInfo = (&'static str, &'static str);
 
+static STRAIGHT_INPUT_BUTTONS: [ButtoInfo; 15] = [("num_1_button", "1"),
+                                                  ("num_2_button", "2"),
+                                                  ("num_3_button", "3"),
+                                                  ("num_4_button", "4"),
+                                                  ("num_5_button", "5"),
+                                                  ("num_6_button", "6"),
+                                                  ("num_7_button", "7"),
+                                                  ("num_8_button", "8"),
+                                                  ("num_9_button", "9"),
+                                                  ("num_0_button", "0"),
+                                                  ("divide_button", " / "),
+                                                  ("add_button", " + "),
+                                                  ("subtract_button", " - "),
+                                                  ("multiply_button", " * "),
+                                                  ("decimal_point_button", " . ")];
 
 fn setup_inputs(builder: &Builder) {
     let input: Entry = builder.get_object("input").unwrap();
@@ -103,10 +103,10 @@ fn calculat(buffer: &EntryBuffer) {
     match res {
         Ok(value) => {
             buffer.set_text(&format!("{:.*}", 0, value));
-        }
+        },
         Err((msg, pos)) => {
             buffer.set_text(&format!("Error: {} at pos {}", msg, pos));
-        }
+        },
     }
 }
 
@@ -136,7 +136,7 @@ fn load_glade_src() -> String {
     let mut file_content = String::new();
     match file.read_to_string(&mut file_content) {
         Err(why) => panic!("couldn't read {}: {}", display, why.description()),
-        Ok(_) => {}
+        Ok(_) => {},
     }
 
     return file_content;
