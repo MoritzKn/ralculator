@@ -72,10 +72,12 @@ fn setup_inputs(builder: &Builder) {
         let button: Button = builder.get_object(id).unwrap();
 
         button.connect_clicked(move |_button| {
-            let input_text = input_buffer.get_text();
+            let pos = input_buffer.get_text().len();
 
-            input.set_position(input_text.len() as i32);
-            input_buffer.insert_text(input_text.len() as u16, text);
+            input.set_position(pos as i32);
+            input_buffer.insert_text(pos as u16, text);
+            input.grab_focus();
+            input.set_position((pos + text.len()) as i32);
         });
     }
 
