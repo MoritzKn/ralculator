@@ -1,7 +1,7 @@
 extern crate gtk;
 use gtk::prelude::*;
-use gtk::{Window, Builder, Button, Entry, EntryBuffer, CssProvider, StyleContext,
-          STYLE_PROVIDER_PRIORITY_APPLICATION};
+use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
+          CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
 mod exec;
 use self::exec::*;
@@ -12,7 +12,7 @@ fn main() {
         return;
     }
 
-    let builder = Builder::new_from_string(&load_glade_src());
+    let builder = Builder::new_from_string(&include_str!("main.glade"));
     let window: Window = builder.get_object("window").unwrap();
 
     setup_window(&window);
@@ -29,7 +29,6 @@ fn main() {
 }
 
 fn setup_window(window: &Window) {
-    // Setup CSS
     let css = CssProvider::new();
     match css.load_from_data(include_str!("main.css")) {
         Ok(_) => {
@@ -67,7 +66,7 @@ fn setup_inputs(builder: &Builder) {
     input.set_alignment(1f32);
 
     for &(id, text) in STRAIGHT_INPUT_BUTTONS.iter() {
-        let input: Entry = builder.get_object("input").unwrap();
+        let input: Entry = input.clone();
         let input_buffer = input.get_buffer();
         let button: Button = builder.get_object(id).unwrap();
 
@@ -82,64 +81,55 @@ fn setup_inputs(builder: &Builder) {
     }
 
     {
-        let input_buffer = input.get_buffer();
         let button: Button = builder.get_object("calc_button").unwrap();
+        let input_buffer = input.get_buffer();
+        let history: TextView = builder.get_object("history").unwrap();
+        let history_buffer = history.get_buffer().unwrap();
+        let history_scroll: ScrolledWindow = builder.get_object("history_scroll").unwrap();
+        let va = history_scroll.get_vadjustment().unwrap();
 
         button.connect_clicked(move |_button| {
-            calculat(&input_buffer);
+            calculat(&input_buffer, &history_buffer);
             input.grab_focus();
-            input.set_position(input_buffer.get_text().len() as i32);
+            va.set_value(va.get_upper());
         });
     }
 }
 
-fn calculat(buffer: &EntryBuffer) {
+fn calculat(buffer: &EntryBuffer, history_buffer: &TextBuffer) {
     let text = buffer.get_text();
 
     if text.len() == 0 {
         return;
     }
 
-    let res = exec_expression(&text);
+    let (start, end) = history_buffer.get_bounds();
+    if start != end {
+        history_buffer.insert(&mut history_buffer.get_end_iter(), "\n");
+    }
 
-    match res {
+    let input_text = &buffer.get_text();
+    history_buffer.insert(&mut history_buffer.get_end_iter(), input_text);
+
+    match exec_expression(&text) {
         Ok(value) => {
-            buffer.set_text(&format!("{:.*}", 0, value));
+            let res_text = &format!("{:.*}", 0, value);
+
+            buffer.set_text(res_text);
+            history_buffer.insert(&mut history_buffer.get_end_iter(),
+                                  &format!("\n= {}", res_text));
         },
         Err((msg, pos)) => {
-            buffer.set_text(&format!("Error: {} at pos {}", msg, pos));
+            buffer.set_text("Error");
+
+            let mut mark = String::from(format!("\n{} ^", msg));
+
+            let pos_from_right = input_text.len() - pos - 1;
+            for _ in 0..pos_from_right {
+                mark.push(' ');
+            }
+
+            history_buffer.insert(&mut history_buffer.get_end_iter(), &mark);
         },
     }
-}
-
-#[cfg(build = "release")]
-fn load_glade_src() -> String {
-    println!("Bake glade view");
-    String::from(include_str!("main.glade"))
-}
-
-#[cfg(not(build = "release"))]
-fn load_glade_src() -> String {
-    println!("Live load glade view");
-
-    use std::path::Path;
-    use std::fs::File;
-    use std::io::prelude::*;
-    use std::error::Error;
-
-    let path = Path::new("src/main.glade");
-    let display = path.display();
-
-    let mut file = match File::open(&path) {
-        Err(why) => panic!("couldn't open {}: {}", display, why.description()),
-        Ok(file) => file,
-    };
-
-    let mut file_content = String::new();
-    match file.read_to_string(&mut file_content) {
-        Err(why) => panic!("couldn't read {}: {}", display, why.description()),
-        Ok(_) => {},
-    }
-
-    return file_content;
 }

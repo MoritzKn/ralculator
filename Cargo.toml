@@ -9,4 +9,4 @@ authors = ["MoritzKn <moritz.kneilmann@gmx.de>"]
 
 [dependencies.gtk]
 version = "0.1.0"
-features = ["v3_10"]
+features = ["v3_16"]

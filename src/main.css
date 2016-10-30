@@ -11,3 +11,12 @@
     font-size: 16px;
     padding: 4px 2px;
 }
+
+.history_text_view {
+    font-size: 14px;
+    font-family: "monospace";
+}
+
+.history_text_view_scroll {
+    background-color: #fff;
+}

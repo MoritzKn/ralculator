@@ -118,7 +118,7 @@ impl fmt::Display for Sign {
 fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
 
     if tokens.len() == 0 {
-        return Result::Err(("Nothing to calculate", 0));
+        return Result::Err(("nothing to calculate", 0));
     }
 
     #[derive(Debug, PartialEq, Eq)]
@@ -172,10 +172,10 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                             State::OperatorSet => {
                                 right_num_sign = right_num_sign.applay(sign);
                             },
-                            _ => return Result::Err(("Unexpected operator", t.pos))
+                            _ => return Result::Err(("unexpected operator", t.pos))
                         }
                     } else {
-                        return Result::Err(("Unexpected operator", t.pos));
+                        return Result::Err(("unexpected operator", t.pos));
                     }
                 }
             },
@@ -208,7 +208,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                             break;
                         }
                     },
-                    _ => return Result::Err(("Unexpected number", t.pos))
+                    _ => return Result::Err(("unexpected number", t.pos))
                 }
             },
             TokenType::None => {},
@@ -217,7 +217,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
 
     if state == State::OperatorSet {
         if let Some(last_token) = tokens.last() {
-            return Result::Err(("Missing ending token", last_token.pos));
+            return Result::Err(("missing ending token", last_token.pos));
         }
     }
 

@@ -61,7 +61,6 @@ pub fn tokenize(input: &str) -> Vec<Token> {
         }
 
         if !char_is_covered {
-            // error
             println!("Error: the char '{}' is not covered by any of the supplied token type \
                       checkers",
                      c);
