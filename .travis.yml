@@ -14,3 +14,6 @@ addons:
   apt:
     packages:
     - libgtk-3-dev
+script:
+  - rustc --version
+  - cargo build
