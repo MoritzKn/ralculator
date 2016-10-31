@@ -14,7 +14,7 @@ pub struct Token {
 static TOKEN_TYPE_CHECKERS: [TokenTypeChecker; 3] =
     [NUMBER_TOKEN_CHECKER, OPERATOR_TOKEN_CHECKER, SPACE_TOKEN_CHECKER];
 
-pub fn tokenize(input: &str) -> Vec<Token> {
+pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
     let mut tokens = Vec::new();
 
     let mut curr_token_content = String::new();
@@ -61,9 +61,7 @@ pub fn tokenize(input: &str) -> Vec<Token> {
         }
 
         if !char_is_covered {
-            println!("Error: the char '{}' is not covered by any of the supplied token type \
-                      checkers",
-                     c);
+            return Result::Err(("unknown token", pos));
         }
     }
 
@@ -75,5 +73,5 @@ pub fn tokenize(input: &str) -> Vec<Token> {
         });
     }
 
-    return tokens;
+    return Result::Ok(tokens);
 }

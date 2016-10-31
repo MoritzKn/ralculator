@@ -229,18 +229,13 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
 }
 
 pub fn exec_expression(expr_str: &str) -> Result<f64, (String, usize)> {
-    let tokens = tokenize(expr_str).clone();
-    let mut foo = Vec::new();
-
-    for t in tokens {
-        foo.push(t);
-    }
-
-    return match to_operation(foo.as_slice()) {
-        Ok(res) => Result::Ok(res.calc()),
-        Err((msg, pos)) => {
-            println!("Error {}", msg);
-            Result::Err((String::from(msg), pos))
+    match tokenize(expr_str) {
+        Ok(tokens) => {
+            match to_operation(tokens.as_slice()) {
+                Ok(operation) => Result::Ok(operation.calc()),
+                Err((msg, pos)) => Result::Err((String::from(msg), pos)),
+            }
         },
-    };
+        Err((msg, pos)) => Result::Err((String::from(msg), pos)),
+    }
 }
