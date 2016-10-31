@@ -21,13 +21,13 @@ impl OperationInput {
                     res
                 }
             },
-            OperationInput::Unset => panic!("[get] error unset operation input"),
+            OperationInput::Unset => panic!("Can't get value of unset operation input"),
         }
     }
 
     fn add_sign(&mut self, new_sign: Sign) {
 
-        println!("Add sign {} to {}", new_sign, self.get());
+        println!("[debug] add sign {} to {}", new_sign, self.get());
 
         match *self {
             OperationInput::StaticValue(value) => {
@@ -38,7 +38,7 @@ impl OperationInput {
             OperationInput::SubOperation(_, ref mut sign) => {
                 *sign = sign.applay(new_sign);
             },
-            OperationInput::Unset => panic!("[add_sign] error unset operation input"),
+            OperationInput::Unset => panic!("Can't add sing to unset operation input"),
         }
     }
 }
@@ -139,11 +139,11 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
     let mut right = OperationInput::Unset;
     let mut right_num_sign = Sign::Plus;
 
-    println!("Tokens:");
+    println!("[debug] tokens:");
 
     for (pos, t) in tokens.iter().enumerate() {
 
-        println!("- Token '{}' of type {}", t.content, t.token_type);
+        println!("[debug] - '{}' of type {}", t.content, t.token_type);
 
         match t.token_type {
             TokenType::Operator => {
@@ -191,7 +191,9 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                     State::OperatorSet => {
                         if pos == tokens.len() - 1 {
                             right = OperationInput::StaticValue(value);
-                            right.add_sign(right_num_sign);
+                            if right_num_sign != Sign::Plus {
+                                right.add_sign(right_num_sign);
+                            }
                             state = State::RightSet;
                         } else {
                             let remaining = &tokens[pos..tokens.len()];

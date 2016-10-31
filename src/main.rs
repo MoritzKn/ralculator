@@ -1,14 +1,14 @@
 extern crate gtk;
 use gtk::prelude::*;
-use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
-          CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
+use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow, CssProvider,
+          StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
 mod exec;
 use self::exec::*;
 
 fn main() {
     if gtk::init().is_err() {
-        println!("Failed to initialize GTK.");
+        println!("[error] failed to initialize GTK.");
         return;
     }
 
@@ -38,7 +38,7 @@ fn setup_window(window: &Window) {
             StyleContext::add_provider_for_screen(&screen, &css, provider);
         },
         Err(msg) => {
-            println!("Error loading main.css {}", msg);
+            println!("[error] loading main.css {}", msg);
         },
     }
 }
