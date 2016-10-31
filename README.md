@@ -20,6 +20,12 @@ cargo build --release
 ./target/release/ralculator
 ```
 
+Alter building the project you can optionally add the binderies to the `$PATH` and
+copy the `.desktop` file to `/usr/share/applications`. To do that simply execute:
+```sh
+./setup.sh
+```
+
 ## License
 This project is licensed under the terms of the MIT license.
 A copy of the license can be found in the root directory of

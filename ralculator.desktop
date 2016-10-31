@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Ralculator
+Comment=Simple calculator app
+GenericName=Calculator
+Type=Application
+Version=0.1.0
+Icon=calc
+Exec=ralculator
+Terminal=false
+Categories=GTK;Utility;Calculator;
+Keywords=calculation;arithmetic;math;
