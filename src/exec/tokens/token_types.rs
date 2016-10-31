@@ -32,7 +32,7 @@ pub const NUMBER_TOKEN_CHECKER: TokenTypeChecker = TokenTypeChecker {
 
 fn is_numeric(c: char) -> bool {
     match c {
-        '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.' => true,
+        '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.' | ',' => true,
         _ => false
     }
 }

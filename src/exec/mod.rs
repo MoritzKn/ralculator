@@ -180,7 +180,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                 }
             },
             TokenType::Number => {
-                let value = t.content.parse().unwrap();
+                let value = t.content.replace(",", ".").parse().unwrap();
 
                 match state {
                     State::NothingDone => {
