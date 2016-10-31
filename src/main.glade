@@ -25,6 +25,7 @@
             <property name="margin_top">4</property>
             <property name="margin_bottom">4</property>
             <property name="hscrollbar_policy">never</property>
+            <property name="vscrollbar_policy">external</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTextView" id="history">
@@ -257,8 +258,8 @@
                 <property name="margin_top">4</property>
                 <property name="margin_bottom">4</property>
                 <property name="image_position">top</property>
-                <accelerator key="KP_Enter" signal="clicked"/>
                 <accelerator key="Return" signal="clicked"/>
+                <accelerator key="KP_Enter" signal="clicked"/>
                 <style>
                   <class name="calc-button"/>
                 </style>

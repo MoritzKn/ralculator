@@ -112,8 +112,16 @@ fn calculat(buffer: &EntryBuffer, history_buffer: &TextBuffer) {
     history_buffer.insert(&mut history_buffer.get_end_iter(), input_text);
 
     match exec_expression(&text) {
-        Ok(value) => {
-            let res_text = &format!("{:.*}", 0, value);
+        Ok(result) => {
+            let mut decimal_digits = 0;
+            for n in 0..20usize {
+                if (result * (10usize.pow(n as u32)) as f64) % 1f64 == 0f64 {
+                    decimal_digits = n;
+                    break;
+                }
+            }
+
+            let res_text = &format!("{:.*}", decimal_digits, result);
 
             buffer.set_text(res_text);
             history_buffer.insert(&mut history_buffer.get_end_iter(),
