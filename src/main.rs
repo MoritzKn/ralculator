@@ -3,8 +3,14 @@ use gtk::prelude::*;
 use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow, CssProvider,
           StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
-mod exec;
-use self::exec::*;
+pub use self::lexer::{tokenize, Token};
+pub mod lexer;
+
+pub use self::exec::exec_expression;
+pub mod exec;
+
+pub use self::token_types::*;
+pub mod token_types;
 
 fn main() {
     if gtk::init().is_err() {

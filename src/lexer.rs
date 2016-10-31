@@ -1,8 +1,5 @@
-mod token_types;
-
-use self::token_types::{TokenTypeChecker, NUMBER_TOKEN_CHECKER, SPACE_TOKEN_CHECKER, OPERATOR_TOKEN_CHECKER};
-
-pub use self::token_types::TokenType;
+use super::token_types::{TokenTypeChecker, NUMBER_TOKEN_CHECKER, SPACE_TOKEN_CHECKER, OPERATOR_TOKEN_CHECKER,
+                        TokenType};
 
 #[derive(Debug, Clone)]
 pub struct Token {

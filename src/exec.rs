@@ -1,7 +1,7 @@
 use std::fmt;
 
-mod tokens;
-use self::tokens::*;
+use super::lexer::{tokenize, Token};
+use super::token_types::TokenType;
 
 enum OperationInput {
     StaticValue(f64),
