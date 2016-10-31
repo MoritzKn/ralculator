@@ -141,7 +141,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
 
     println!("[debug] tokens:");
 
-    for (pos, t) in tokens.iter().enumerate() {
+    for (i, t) in tokens.iter().enumerate() {
 
         println!("[debug] - '{}' of type {}", t.content, t.token_type);
 
@@ -189,14 +189,14 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
                         state = State::LeftSet;
                     },
                     State::OperatorSet => {
-                        if pos == tokens.len() - 1 {
+                        if i == tokens.len() - 1 {
                             right = OperationInput::StaticValue(value);
                             if right_num_sign != Sign::Plus {
                                 right.add_sign(right_num_sign);
                             }
                             state = State::RightSet;
                         } else {
-                            let remaining = &tokens[pos..tokens.len()];
+                            let remaining = &tokens[i..tokens.len()];
 
                             match to_operation(remaining) {
                                 Err((msg, pos)) => {
