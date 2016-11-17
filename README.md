@@ -7,11 +7,11 @@ written in [Rust](https://www.rust-lang.org/) using [GTK-RS](http://gtk-rs.org/)
 
 ## Build instructions
 1. Download the source code from [here](https://github.com/MoritzKn/ralculator/releases)
-   or clone the [git](https://git-scm.com/) project.
-2. Download the dependencies and complie the source code with
+   or clone the git project.
+2. Download the dependencies and complie the source code using
    [Cargo](https://crates.io/install).
 
-After cargo is done the binaries are placed under`./target/release/ralculator`.
+After cargo is done, you can find the binaries under`./target/release/ralculator`.
 
 ```sh
 git clone https://github.com/MoritzKn/ralculator.git
@@ -20,8 +20,8 @@ cargo build --release
 ./target/release/ralculator
 ```
 
-Alter building the project you can optionally add the binderies to the `$PATH` and
-copy the `.desktop` file to `/usr/share/applications`. To do that simply execute:
+Alter that you can optionally add the binaries to your `$PATH` and copy
+the `ralculator.desktop` file to `/usr/share/applications`. To do so execute:
 ```sh
 ./setup.sh
 ```
