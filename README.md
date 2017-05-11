@@ -23,7 +23,7 @@ cargo build --release
 Alter that you can optionally add the binaries to your `$PATH` and copy
 the `ralculator.desktop` file to `/usr/share/applications`. To do so execute:
 ```sh
-./setup.sh
+./install.sh
 ```
 
 ## License
