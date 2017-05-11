@@ -18,7 +18,7 @@ fn main() {
         return;
     }
 
-    let builder = Builder::new_from_string(&include_str!("main.glade"));
+    let builder = Builder::new_from_string(&include_str!("assets/layout.glade"));
     let window: Window = builder.get_object("window").unwrap();
 
     setup_window(&window);
@@ -36,7 +36,7 @@ fn main() {
 
 fn setup_window(window: &Window) {
     let css = CssProvider::new();
-    match css.load_from_data(include_str!("main.css")) {
+    match css.load_from_data(include_str!("assets/style.css")) {
         Ok(_) => {
             let screen = window.get_display().unwrap().get_screen(0);
             let provider = STYLE_PROVIDER_PRIORITY_APPLICATION;
