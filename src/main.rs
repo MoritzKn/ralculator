@@ -18,7 +18,7 @@ fn main() {
         return;
     }
 
-    let builder = Builder::new_from_string(&include_str!("assets/layout.glade"));
+    let builder = Builder::new_from_string(include_str!("assets/layout.glade"));
     let window: Window = builder.get_object("window").unwrap();
 
     setup_window(&window);
@@ -71,7 +71,7 @@ fn setup_inputs(builder: &Builder) {
     let input: Entry = builder.get_object("input").unwrap();
     input.set_alignment(1f32);
 
-    for &(id, text) in STRAIGHT_INPUT_BUTTONS.iter() {
+    for &(id, text) in &STRAIGHT_INPUT_BUTTONS {
         let input: Entry = input.clone();
         let input_buffer = input.get_buffer();
         let button: Button = builder.get_object(id).unwrap();
@@ -105,7 +105,7 @@ fn setup_inputs(builder: &Builder) {
 fn calculat(buffer: &EntryBuffer, history_buffer: &TextBuffer) {
     let text = buffer.get_text();
 
-    if text.len() == 0 {
+    if text.is_empty() {
         return;
     }
 

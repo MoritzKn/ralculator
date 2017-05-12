@@ -38,7 +38,7 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
 
         let mut char_is_covered = false;
 
-        for token_type_checker in TOKEN_TYPE_CHECKERS.into_iter() {
+        for token_type_checker in &TOKEN_TYPE_CHECKERS {
             if (token_type_checker.starts_with)(c) {
                 println!("[debug] checked {} with {} checker",
                          c,
@@ -71,5 +71,5 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
                     });
     }
 
-    return Result::Ok(tokens);
+    Result::Ok(tokens)
 }

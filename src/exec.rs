@@ -70,9 +70,8 @@ struct Operation {
 
 impl Operation {
     fn calc(&self) -> f64 {
-        match self.left {
-            OperationInput::Unset => return 0f64,
-            _ => {}
+        if let OperationInput::Unset = self.left {
+            return 0f64;
         }
 
         match self.operator {
@@ -117,7 +116,7 @@ impl fmt::Display for Sign {
 
 fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
 
-    if tokens.len() == 0 {
+    if tokens.is_empty() {
         return Result::Err(("nothing to calculate", 0));
     }
 
@@ -224,11 +223,11 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
         }
     }
 
-    return Result::Ok(Operation {
-                          left: left,
-                          operator: operator,
-                          right: right,
-                      });
+    Result::Ok(Operation {
+                   left: left,
+                   operator: operator,
+                   right: right,
+               })
 }
 
 pub fn exec_expression(expr_str: &str) -> Result<f64, (String, usize)> {
