@@ -33,7 +33,7 @@ pub const NUMBER_TOKEN_CHECKER: TokenTypeChecker = TokenTypeChecker {
 fn is_numeric(c: char) -> bool {
     match c {
         '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '.' | ',' => true,
-        _ => false
+        _ => false,
     }
 }
 
@@ -51,7 +51,7 @@ pub const SPACE_TOKEN_CHECKER: TokenTypeChecker = TokenTypeChecker {
 fn is_space(c: char) -> bool {
     match c {
         ' ' | '\t' | '\n' => true,
-        _ => false
+        _ => false,
     }
 }
 
@@ -69,7 +69,7 @@ pub const OPERATOR_TOKEN_CHECKER: TokenTypeChecker = TokenTypeChecker {
 fn is_operator(c: char) -> bool {
     match c {
         '+' | '-' | '*' | '/' => true,
-        _ => false
+        _ => false,
     }
 }
 

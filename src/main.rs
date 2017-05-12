@@ -1,7 +1,7 @@
 extern crate gtk;
 use gtk::prelude::*;
-use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow, CssProvider,
-          StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
+use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
+          CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
 pub use self::lexer::{tokenize, Token};
 pub mod lexer;
@@ -25,9 +25,9 @@ fn main() {
     setup_inputs(&builder);
 
     window.connect_delete_event(|_, _| {
-        gtk::main_quit();
-        Inhibit(false)
-    });
+                                    gtk::main_quit();
+                                    Inhibit(false)
+                                });
 
     window.show_all();
 
@@ -42,10 +42,10 @@ fn setup_window(window: &Window) {
             let provider = STYLE_PROVIDER_PRIORITY_APPLICATION;
 
             StyleContext::add_provider_for_screen(&screen, &css, provider);
-        },
+        }
         Err(msg) => {
             println!("[error] loading main.css {}", msg);
-        },
+        }
     }
 }
 
@@ -77,13 +77,13 @@ fn setup_inputs(builder: &Builder) {
         let button: Button = builder.get_object(id).unwrap();
 
         button.connect_clicked(move |_button| {
-            let pos = input_buffer.get_text().len();
+                                   let pos = input_buffer.get_text().len();
 
-            input.set_position(pos as i32);
-            input_buffer.insert_text(pos as u16, text);
-            input.grab_focus();
-            input.set_position((pos + text.len()) as i32);
-        });
+                                   input.set_position(pos as i32);
+                                   input_buffer.insert_text(pos as u16, text);
+                                   input.grab_focus();
+                                   input.set_position((pos + text.len()) as i32);
+                               });
     }
 
     {
@@ -95,10 +95,10 @@ fn setup_inputs(builder: &Builder) {
         let va = history_scroll.get_vadjustment().unwrap();
 
         button.connect_clicked(move |_button| {
-            calculat(&input_buffer, &history_buffer);
-            input.grab_focus();
-            va.set_value(va.get_upper());
-        });
+                                   calculat(&input_buffer, &history_buffer);
+                                   input.grab_focus();
+                                   va.set_value(va.get_upper());
+                               });
     }
 }
 
@@ -132,7 +132,7 @@ fn calculat(buffer: &EntryBuffer, history_buffer: &TextBuffer) {
             buffer.set_text(res_text);
             history_buffer.insert(&mut history_buffer.get_end_iter(),
                                   &format!("\n= {}", res_text));
-        },
+        }
         Err((msg, pos)) => {
             buffer.set_text("Error");
 
@@ -144,6 +144,6 @@ fn calculat(buffer: &EntryBuffer, history_buffer: &TextBuffer) {
             }
 
             history_buffer.insert(&mut history_buffer.get_end_iter(), &mark);
-        },
+        }
     }
 }

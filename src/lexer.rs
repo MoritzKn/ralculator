@@ -1,5 +1,5 @@
-use super::token_types::{TokenTypeChecker, NUMBER_TOKEN_CHECKER, SPACE_TOKEN_CHECKER, OPERATOR_TOKEN_CHECKER,
-                        TokenType};
+use super::token_types::{TokenTypeChecker, NUMBER_TOKEN_CHECKER, SPACE_TOKEN_CHECKER,
+                         OPERATOR_TOKEN_CHECKER, TokenType};
 
 #[derive(Debug, Clone)]
 pub struct Token {
@@ -8,8 +8,9 @@ pub struct Token {
     pub content: String,
 }
 
-static TOKEN_TYPE_CHECKERS: [TokenTypeChecker; 3] =
-    [NUMBER_TOKEN_CHECKER, OPERATOR_TOKEN_CHECKER, SPACE_TOKEN_CHECKER];
+static TOKEN_TYPE_CHECKERS: [TokenTypeChecker; 3] = [NUMBER_TOKEN_CHECKER,
+                                                     OPERATOR_TOKEN_CHECKER,
+                                                     SPACE_TOKEN_CHECKER];
 
 pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
     let mut tokens = Vec::new();
@@ -29,10 +30,10 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
         // push last token
         if curr_token_type != TokenType::None {
             tokens.push(Token {
-                token_type: curr_token_type,
-                content: curr_token_content.clone(),
-                pos: curr_toke_beginn,
-            });
+                            token_type: curr_token_type,
+                            content: curr_token_content.clone(),
+                            pos: curr_toke_beginn,
+                        });
         }
 
         let mut char_is_covered = false;
@@ -64,10 +65,10 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
 
     if curr_token_type != TokenType::None {
         tokens.push(Token {
-            token_type: curr_token_type,
-            content: curr_token_content.clone(),
-            pos: curr_toke_beginn,
-        });
+                        token_type: curr_token_type,
+                        content: curr_token_content.clone(),
+                        pos: curr_toke_beginn,
+                    });
     }
 
     return Result::Ok(tokens);
