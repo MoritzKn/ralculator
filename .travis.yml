@@ -30,3 +30,4 @@ script:
   - export LD_LIBRARY_PATH="$HOME/local/lib/"
   - cargo fmt -- --write-mode=diff
   - cargo build --verbose
+  - cargo test
