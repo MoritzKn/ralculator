@@ -1,6 +1,8 @@
 [package]
 authors = ["MoritzKn <moritz.kneilmann@gmx.de>"]
+license = "MIT"
 name = "ralculator"
+repository = "https://github.com/MoritzKn/ralculator"
 version = "0.2.0"
 
 [dependencies]
