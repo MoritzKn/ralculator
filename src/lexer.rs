@@ -40,10 +40,6 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
 
         for token_type_checker in &TOKEN_TYPE_CHECKERS {
             if (token_type_checker.starts_with)(c) {
-                println!("[debug] checked {} with {} checker",
-                         c,
-                         token_type_checker.token_type);
-
                 char_is_covered = true;
                 // start new token
                 curr_token_content = String::new();
@@ -51,8 +47,6 @@ pub fn tokenize(input: &str) -> Result<Vec<Token>, (&str, usize)> {
                 curr_token_type = token_type_checker.token_type;
                 curr_token_type_checker = token_type_checker;
                 curr_toke_beginn = pos;
-
-                println!("[debug] new token {}", curr_token_type);
 
                 break;
             }

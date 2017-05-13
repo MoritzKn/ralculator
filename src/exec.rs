@@ -26,9 +26,6 @@ impl OperationInput {
     }
 
     fn add_sign(&mut self, new_sign: Sign) {
-
-        println!("[debug] add sign {} to {}", new_sign, self.get());
-
         match *self {
             OperationInput::StaticValue(value) => {
                 if new_sign == Sign::Minus {
@@ -138,12 +135,7 @@ fn to_operation(tokens: &[Token]) -> Result<Operation, (&str, usize)> {
     let mut right = OperationInput::Unset;
     let mut right_num_sign = Sign::Plus;
 
-    println!("[debug] tokens:");
-
     for (i, t) in tokens.iter().enumerate() {
-
-        println!("[debug] - '{}' of type {}", t.content, t.token_type);
-
         match t.token_type {
             TokenType::Operator => {
                 if state == State::LeftSet {

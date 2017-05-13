@@ -3,6 +3,10 @@ use gtk::prelude::*;
 use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
           CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
 pub use self::lexer::{tokenize, Token};
 pub mod lexer;
 
@@ -13,11 +17,16 @@ pub use self::token_types::*;
 pub mod token_types;
 
 fn main() {
-    if gtk::init().is_err() {
-        println!("[error] failed to initialize GTK.");
-        return;
-    }
+    env_logger::init().unwrap();
 
+    gtk::init().expect("Failed to initialize GTK");
+
+    launch();
+
+    gtk::main();
+}
+
+fn launch() {
     let builder = Builder::new_from_string(include_str!("assets/layout.glade"));
     let window: Window = builder.get_object("window").unwrap();
 
@@ -30,8 +39,6 @@ fn main() {
                                 });
 
     window.show_all();
-
-    gtk::main();
 }
 
 fn setup_window(window: &Window) {
@@ -44,7 +51,7 @@ fn setup_window(window: &Window) {
             StyleContext::add_provider_for_screen(&screen, &css, provider);
         }
         Err(msg) => {
-            println!("[error] loading main.css {}", msg);
+            error!("Loading main.css failed: {}", msg);
         }
     }
 }
