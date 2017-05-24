@@ -1,3 +1,5 @@
+#![allow(unknown_lints, never_loop)]
+
 use std::option::Option::{Some, None};
 use super::ast::*;
 
