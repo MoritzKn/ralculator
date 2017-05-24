@@ -176,13 +176,15 @@ fn handle_execute(input_buffer: &EntryBuffer, history: &History) {
             input_buffer.set_text(&res_text);
             history.add(&format!("= {}", &res_text));
         }
-        Err(InputError { msg, pos }) => {
+        Err(InputError { msg: _msg, pos }) => {
             input_buffer.set_text("Error");
 
             let marker = pos.fill('^');
             let pad = TextRange::new(pos.end, input.len()).fill(' ');
 
-            history.add(&format!("{} {}{}", msg, marker, pad));
+            // TODO: fix messages
+            // history.add(&format!("{} {}{}", msg, marker, pad));
+            history.add(&format!("{}{}", marker, pad));
         }
     }
 }
