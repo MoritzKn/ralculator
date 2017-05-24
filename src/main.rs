@@ -6,6 +6,7 @@ extern crate gtk;
 
 mod exec;
 mod gui;
+mod input_error;
 mod parser;
 mod text_range;
 

@@ -2,7 +2,7 @@ use gtk::prelude::*;
 use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
           CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION, Error};
 
-use exec::InputError;
+use input_error::InputError;
 use exec::parse_and_execute;
 use text_range::TextRange;
 

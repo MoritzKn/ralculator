@@ -1,44 +1,8 @@
-use super::parser::{parse, ParseError};
-use super::parser::ast::{Root, Expression, BinaryOperator, PrefixOperator, SuffixOperator};
-use super::text_range::TextRange;
-
-pub struct InputError {
-    /// The error message
-    pub msg: String,
-    /// The columns in which the error occurred
-    pub pos: TextRange,
-}
-
-impl InputError {
-    fn from_parse_error(err: ParseError) -> InputError {
-        InputError {
-            // TODO: Formt message
-            msg: String::from(""),
-            pos: TextRange {
-                start: err.offset,
-                end: err.column,
-            },
-        }
-    }
-}
-
-// TODO: add test
-pub fn parse_and_execute(input: &str) -> Result<f64, InputError> {
-    match parse(input) {
-        Ok(expression) => Ok(execute(expression)),
-        Err(err) => Err(InputError::from_parse_error(err)),
-    }
-}
-
-fn execute(input: Root) -> f64 {
-    match input {
-        Root::Expression(expression) => execute_expression(expression),
-    }
-}
+use parser::ast::{Expression, BinaryOperator, PrefixOperator, SuffixOperator};
 
 // TODO: add test
 // TODO: handle semantic errors e.g. 1 / 0
-fn execute_expression(expression: Expression) -> f64 {
+pub fn execute_expression(expression: Expression) -> f64 {
     match expression {
         Expression::Number(n) => n,
         Expression::BinaryOperation(left, op, right) => {
