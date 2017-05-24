@@ -1,0 +1,57 @@
+use self::Expression::{BinaryOperation, UnaryPrefixOperation};
+use self::BinaryOperator::*;
+
+
+pub parse -> Root
+    = __ exp:expression __ { Root::Expression(exp) }
+
+expression -> Expression
+    = &(wrapped_atom [+\-*/^]) exp:#infix<wrapped_atom> {
+        #L left "+" right { BinaryOperation(Box::new(left), Plus, Box::new(right)) }
+           left "-" right { BinaryOperation(Box::new(left), Minus, Box::new(right)) }
+        #L left "*" right { BinaryOperation(Box::new(left), Multiplication, Box::new(right)) }
+           left "/" right { BinaryOperation(Box::new(left), Divide, Box::new(right)) }
+        #R left "^" right { BinaryOperation(Box::new(left), Power, Box::new(right)) }
+    } { exp }
+    / op:prefix_operator __ exp:expression { UnaryPrefixOperation(op, Box::new(exp)) }
+    / exp:atom __ rest:expression_rest { finish_expression(exp, rest) }
+
+expression_rest -> Option<Box<IncompleteExpression>>
+    = op:suffix_operator __ rest:expression_rest {
+        Some(Box::new(IncompleteExpression::UnarySuffixOperation(op, rest)))
+    }
+    / '' { None }
+
+wrapped_atom -> Expression
+    = __ a:atom __ { a }
+
+atom -> Expression
+    = n:number { Expression::Number(n) }
+    / "(" __  exp:expression __ ")" { exp }
+
+number -> f64
+    = #quiet<raw_number>
+    / #expected("number")
+
+// Use BigRational instead
+raw_number -> f64
+    = n:$([0-9]+) { n.parse().unwrap() }
+
+prefix_operator -> PrefixOperator
+    = "+" { PrefixOperator::PlusSign }
+    / "-" { PrefixOperator::MinusSign }
+
+suffix_operator -> SuffixOperator
+    = "!" { SuffixOperator::Factorial }
+
+__ = #quiet<(whitespace / eol)*>
+
+eol
+    = "\n"
+    / "\r\n"
+    / "\r"
+    / "\u{2028}"
+    / "\u{2029}"
+
+whitespace
+    = [ \t\u{00A0}\u{FEFF}\u{1680}\u{180E}\u{2000}-\u{200A}\u{202F}\u{205F}\u{3000}]

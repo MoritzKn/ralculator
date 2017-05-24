@@ -1,5 +1,6 @@
 [package]
 authors = ["MoritzKn <moritz.kneilmann@gmx.de>"]
+build = "build.rs"
 license = "MIT"
 name = "ralculator"
 repository = "https://github.com/MoritzKn/ralculator"
@@ -12,3 +13,7 @@ log = "0.3.7"
 [dependencies.gtk]
 features = ["v3_16"]
 version = "0.1.0"
+
+
+[build-dependencies]
+peg = "0.5"
