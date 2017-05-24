@@ -32,9 +32,7 @@ pub fn parse_and_execute(input: &str) -> Result<f64, InputError> {
 
 fn execute(input: Root) -> f64 {
     match input {
-        Root::Expression(expression) => {
-            execute_expression(expression)
-        },
+        Root::Expression(expression) => execute_expression(expression),
     }
 }
 
