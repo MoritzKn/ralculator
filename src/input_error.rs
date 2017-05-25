@@ -12,7 +12,7 @@ pub struct InputError {
 impl InputError {
     pub fn from_parser_error(err: ParseError) -> InputError {
         InputError {
-            msg: generate_expected_string(err.expected),
+            msg: generate_expected_string(&err.expected),
             pos: TextRange {
                 start: err.offset,
                 end: err.column,
@@ -21,21 +21,21 @@ impl InputError {
     }
 }
 
-fn generate_expected_string(expected: HashSet<&'static str>) -> String {
+fn generate_expected_string(expected: &HashSet<&'static str>) -> String {
     let expected = expected
         .iter()
         .map(|s| s.to_string())
         .collect::<Vec<String>>();
 
-    format!("expected {}", or_list(expected))
+    format!("expected {}", or_list(&expected))
 }
 
 
-fn or_list(items: Vec<String>) -> String {
+fn or_list(items: &[String]) -> String {
     let len = items.len();
     match len {
         0 => String::new(),
-        1 => format!("{}", items[0]),
+        1 => items[0].clone(),
         _ => {
             let last = len - 1;
             format!("{} or {}", items[0..last].join(", "), items[last])
@@ -46,16 +46,16 @@ fn or_list(items: Vec<String>) -> String {
 
 #[test]
 fn test_or_list() {
-    assert_eq!(or_list(vec![String::from("foo")]), String::from("foo"));
+    assert_eq!(or_list(&vec![String::from("foo")]), String::from("foo"));
 
     assert_eq!(
-        or_list(vec![String::from("foo"), String::from("bar")]),
+        or_list(&vec![String::from("foo"), String::from("bar")]),
         String::from("foo or bar")
     );
 
     assert_eq!(
         or_list(
-            vec![
+            &vec![
                 String::from("foo"),
                 String::from("bar"),
                 String::from("baz"),
@@ -66,7 +66,7 @@ fn test_or_list() {
 
     assert_eq!(
         or_list(
-            vec![
+            &vec![
                 String::from("a"),
                 String::from("b"),
                 String::from("c"),
