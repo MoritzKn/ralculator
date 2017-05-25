@@ -34,7 +34,10 @@ fn test_generate_expected_string() {
     let mut expected = HashSet::new();
     expected.insert("abc");
     expected.insert("number");
-    assert_eq!(generate_expected_string(&expected), "expected abc or number");
+    assert_eq!(
+        generate_expected_string(&expected),
+        "expected abc or number"
+    );
 }
 
 #[test]
@@ -44,7 +47,10 @@ fn test_generate_expected_string_with_special_characters() {
     expected.insert("(");
     expected.insert("0");
     expected.insert("number");
-    assert_eq!(generate_expected_string(&expected), "expected (, 0, a or number");
+    assert_eq!(
+        generate_expected_string(&expected),
+        "expected (, 0, a or number"
+    );
 }
 
 fn or_list(items: &[&str]) -> String {
