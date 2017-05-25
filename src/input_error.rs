@@ -21,12 +21,25 @@ impl InputError {
     }
 }
 
-fn generate_expected_string(expected: &HashSet<&'static str>) -> String {
-    let expected = expected.iter().map(|s| *s).collect::<Vec<&str>>();
+fn generate_expected_string(expected: &HashSet<&str>) -> String {
+    let mut expected = expected.iter().map(|s| *s).collect::<Vec<&str>>();
+
+    expected.sort();
 
     format!("expected {}", or_list(&expected))
 }
 
+#[test]
+fn ident_generate_expected_string() {
+    {
+        let mut expected = HashSet::new();
+        expected.insert("a");
+        expected.insert("(");
+        expected.insert("0");
+        expected.insert("number");
+        assert_eq!(generate_expected_string(&expected), "expected (, 0, a or number");
+    }
+}
 
 fn or_list(items: &[&str]) -> String {
     let len = items.len();
