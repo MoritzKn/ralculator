@@ -22,20 +22,17 @@ impl InputError {
 }
 
 fn generate_expected_string(expected: &HashSet<&'static str>) -> String {
-    let expected = expected
-        .iter()
-        .map(|s| s.to_string())
-        .collect::<Vec<String>>();
+    let expected = expected.iter().map(|s| *s).collect::<Vec<&str>>();
 
     format!("expected {}", or_list(&expected))
 }
 
 
-fn or_list(items: &[String]) -> String {
+fn or_list(items: &[&str]) -> String {
     let len = items.len();
     match len {
         0 => String::new(),
-        1 => items[0].clone(),
+        1 => String::from(items[0]),
         _ => {
             let last = len - 1;
             format!("{} or {}", items[0..last].join(", "), items[last])
@@ -46,34 +43,17 @@ fn or_list(items: &[String]) -> String {
 
 #[test]
 fn test_or_list() {
-    assert_eq!(or_list(&vec![String::from("foo")]), String::from("foo"));
+    assert_eq!(or_list(&vec!["foo"]), String::from("foo"));
+
+    assert_eq!(or_list(&vec!["foo", "bar"]), String::from("foo or bar"));
 
     assert_eq!(
-        or_list(&vec![String::from("foo"), String::from("bar")]),
-        String::from("foo or bar")
-    );
-
-    assert_eq!(
-        or_list(
-            &vec![
-                String::from("foo"),
-                String::from("bar"),
-                String::from("baz"),
-            ]
-        ),
+        or_list(&vec!["foo", "bar", "baz"]),
         String::from("foo, bar or baz")
     );
 
     assert_eq!(
-        or_list(
-            &vec![
-                String::from("a"),
-                String::from("b"),
-                String::from("c"),
-                String::from("d"),
-                String::from("e"),
-            ]
-        ),
+        or_list(&vec!["a", "b", "c", "d", "e"]),
         String::from("a, b, c, d or e")
     );
 }
