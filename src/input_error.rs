@@ -30,15 +30,21 @@ fn generate_expected_string(expected: &HashSet<&str>) -> String {
 }
 
 #[test]
-fn ident_generate_expected_string() {
-    {
-        let mut expected = HashSet::new();
-        expected.insert("a");
-        expected.insert("(");
-        expected.insert("0");
-        expected.insert("number");
-        assert_eq!(generate_expected_string(&expected), "expected (, 0, a or number");
-    }
+fn test_generate_expected_string() {
+    let mut expected = HashSet::new();
+    expected.insert("abc");
+    expected.insert("number");
+    assert_eq!(generate_expected_string(&expected), "expected abc or number");
+}
+
+#[test]
+fn test_generate_expected_string_with_special_characters() {
+    let mut expected = HashSet::new();
+    expected.insert("a");
+    expected.insert("(");
+    expected.insert("0");
+    expected.insert("number");
+    assert_eq!(generate_expected_string(&expected), "expected (, 0, a or number");
 }
 
 fn or_list(items: &[&str]) -> String {
@@ -55,16 +61,25 @@ fn or_list(items: &[&str]) -> String {
 
 
 #[test]
-fn test_or_list() {
+fn test_or_list_with_one_entry() {
     assert_eq!(or_list(&vec!["foo"]), String::from("foo"));
+}
 
+#[test]
+fn test_or_list_with_two_entries() {
     assert_eq!(or_list(&vec!["foo", "bar"]), String::from("foo or bar"));
+}
 
+#[test]
+fn test_or_list_with_three_entries() {
     assert_eq!(
         or_list(&vec!["foo", "bar", "baz"]),
         String::from("foo, bar or baz")
     );
+}
 
+#[test]
+fn test_or_list_with_five_entries() {
     assert_eq!(
         or_list(&vec!["a", "b", "c", "d", "e"]),
         String::from("a, b, c, d or e")
