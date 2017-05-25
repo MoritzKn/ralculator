@@ -44,11 +44,31 @@ fn factorial(value: u64) -> u64 {
 }
 
 #[test]
-fn test_factorial() {
+fn test_factorial_of_0() {
     assert_eq!(factorial(0u64), 1u64);
+}
+
+#[test]
+fn test_factorial_of_1() {
     assert_eq!(factorial(1u64), 1u64);
+}
+
+#[test]
+fn test_factorial_of_2() {
     assert_eq!(factorial(2u64), 2u64);
+}
+
+#[test]
+fn test_factorial_of_3() {
     assert_eq!(factorial(3u64), 6u64);
+}
+
+#[test]
+fn test_factorial_of_4() {
     assert_eq!(factorial(4u64), 24u64);
+}
+
+#[test]
+fn test_factorial_of_5() {
     assert_eq!(factorial(5u64), 120u64);
 }
