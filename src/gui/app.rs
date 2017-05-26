@@ -1,10 +1,12 @@
 use gtk::prelude::*;
-use gtk::{Window, Builder, Button, Entry, EntryBuffer, TextView, TextBuffer, ScrolledWindow,
-          CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION, Error};
+use gtk::{Builder, Button, CssProvider, Entry, EntryBuffer, Error,
+          STYLE_PROVIDER_PRIORITY_APPLICATION, StyleContext, Window};
 
-use input_error::InputError;
 use exec::parse_and_execute;
+use input_error::InputError;
 use text_range::TextRange;
+
+use super::history::History;
 
 static LAYOUT_GLADE: &str = include_str!("layout.glade");
 static STYLE_CSS: &str = include_str!("style.css");
@@ -120,45 +122,6 @@ fn insert_text(input: &Entry, text: &str) {
     buffer.insert_text(pos as u16, text);
     input.grab_focus();
     input.set_position(pos + text.len() as i32);
-}
-
-#[derive(Clone)]
-struct History {
-    text_view: TextView,
-    buffer: TextBuffer,
-    history_scroll: ScrolledWindow,
-}
-
-impl History {
-    fn new(text_view: TextView, history_scroll: ScrolledWindow) -> History {
-        let buffer = text_view.get_buffer().unwrap();
-        History {
-            text_view,
-            buffer,
-            history_scroll,
-        }
-    }
-
-    fn add(&self, text: &str) {
-        if self.is_empty() {
-            self.insert("\n");
-        }
-
-        self.insert(text);
-
-        // FIXME
-        let va = self.history_scroll.get_vadjustment().unwrap();
-        va.set_value(va.get_upper() + 15f64);
-    }
-
-    fn insert(&self, text: &str) {
-        self.buffer.insert(&mut self.buffer.get_end_iter(), text);
-    }
-
-    fn is_empty(&self) -> bool {
-        let (start, end) = self.buffer.get_bounds();
-        start != end
-    }
 }
 
 fn handle_execute(input_buffer: &EntryBuffer, history: &History) {

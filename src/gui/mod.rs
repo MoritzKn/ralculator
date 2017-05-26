@@ -1,6 +1,7 @@
 extern crate gtk;
 
 mod app;
+mod history;
 
 use self::app::App;
 
