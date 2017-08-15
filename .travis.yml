@@ -15,7 +15,6 @@ addons:
   apt:
     packages:
     - libgtk-3-dev
-    - shellcheck
 
 install:
 
@@ -35,4 +34,3 @@ script:
   - cargo fmt -- --write-mode=diff
   - cargo build
   - cargo test
-  - shellcheck install
