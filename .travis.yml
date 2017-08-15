@@ -17,7 +17,7 @@ addons:
     - debian-sid
     packages:
     - libgtk-3-dev
-    - shellcheck
+#    - shellcheck
 
 install:
 
