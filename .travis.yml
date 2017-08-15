@@ -13,8 +13,11 @@ env:
     - LD_LIBRARY_PATH=/usr/local/lib
 addons:
   apt:
+    sources:
+    - debian-sid
     packages:
     - libgtk-3-dev
+    - shellcheck
 
 install:
 
@@ -34,3 +37,4 @@ script:
   - cargo fmt -- --write-mode=diff
   - cargo build --verbose
   - cargo test
+  - shellcheck install
