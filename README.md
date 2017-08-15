@@ -24,7 +24,7 @@ After cargo is done the binaries are placed under `./target/release/ralculator`.
 You can also optionally add the binaries to your `$PATH` and copy the `ralculator.desktop` file to `/usr/local/share/applications/`. To do so execute:
 
 ```sh
-sudo ./install.sh
+sudo ./install
 ```
 
 ## License
