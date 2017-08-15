@@ -18,11 +18,15 @@ fn test_number_expressions() {
 fn test_prefixed_number_expressions() {
     assert_eq!(
         parse("-42"),
-        Ok(Expression(UnaryPrefixOperation(MinusSign, Box::new(Number(42f64)))))
+        Ok(Expression(
+            UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
+        ))
     );
     assert_eq!(
         parse("+42"),
-        Ok(Expression(UnaryPrefixOperation(PlusSign, Box::new(Number(42f64)))))
+        Ok(Expression(
+            UnaryPrefixOperation(PlusSign, Box::new(Number(42f64))),
+        ))
     );
 }
 
@@ -38,42 +42,34 @@ fn test_prefixed_number_expressions_white_spaces() {
 fn test_nested_prefixed_expressions() {
     assert_eq!(
         parse("++42"),
-        Ok(
-            Expression(
-                UnaryPrefixOperation(
-                    PlusSign,
-                    Box::new(UnaryPrefixOperation(PlusSign, Box::new(Number(42f64)))),
-                )
-            )
-        )
+        Ok(Expression(UnaryPrefixOperation(
+            PlusSign,
+            Box::new(
+                UnaryPrefixOperation(PlusSign, Box::new(Number(42f64))),
+            ),
+        )))
     );
     assert_eq!(
         parse("+-42"),
-        Ok(
-            Expression(
-                UnaryPrefixOperation(
-                    PlusSign,
-                    Box::new(UnaryPrefixOperation(MinusSign, Box::new(Number(42f64)))),
-                )
-            )
-        )
+        Ok(Expression(UnaryPrefixOperation(
+            PlusSign,
+            Box::new(
+                UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
+            ),
+        )))
     );
 
     assert_eq!(
         parse("-+-42"),
-        Ok(
-            Expression(
-                UnaryPrefixOperation(
-                    MinusSign,
-                    Box::new(
-                        UnaryPrefixOperation(
-                            PlusSign,
-                            Box::new(UnaryPrefixOperation(MinusSign, Box::new(Number(42f64)))),
-                        )
-                    ),
-                )
-            )
-        )
+        Ok(Expression(UnaryPrefixOperation(
+            MinusSign,
+            Box::new(UnaryPrefixOperation(
+                PlusSign,
+                Box::new(
+                    UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
+                ),
+            )),
+        )))
     );
 }
 
@@ -81,7 +77,9 @@ fn test_nested_prefixed_expressions() {
 fn test_suffixed_number_expressions() {
     assert_eq!(
         parse("5!"),
-        Ok(Expression(UnarySuffixOperation(Box::new(Number(5f64)), Factorial)))
+        Ok(Expression(
+            UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
+        ))
     );
 }
 
@@ -95,14 +93,12 @@ fn test_suffixed_number_expressions_white_spaces() {
 fn test_nested_suffixed_expressions() {
     assert_eq!(
         parse("5!!"),
-        Ok(
-            Expression(
-                UnarySuffixOperation(
-                    Box::new(UnarySuffixOperation(Box::new(Number(5f64)), Factorial)),
-                    Factorial,
-                )
-            )
-        )
+        Ok(Expression(UnarySuffixOperation(
+            Box::new(
+                UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
+            ),
+            Factorial,
+        )))
     );
 }
 
@@ -111,19 +107,15 @@ fn test_nested_unary_expressions() {
     // IDEA: Swap order of operations
     assert_eq!(
         parse("-+5!"),
-        Ok(
-            Expression(
-                UnaryPrefixOperation(
-                    MinusSign,
-                    Box::new(
-                        UnaryPrefixOperation(
-                            PlusSign,
-                            Box::new(UnarySuffixOperation(Box::new(Number(5f64)), Factorial)),
-                        )
-                    ),
-                )
-            )
-        )
+        Ok(Expression(UnaryPrefixOperation(
+            MinusSign,
+            Box::new(UnaryPrefixOperation(
+                PlusSign,
+                Box::new(
+                    UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
+                ),
+            )),
+        )))
     );
 }
 
@@ -131,7 +123,11 @@ fn test_nested_unary_expressions() {
 fn test_simple_binary_operation_plus() {
     assert_eq!(
         parse("5-10"),
-        Ok(Expression(BinaryOperation(Box::new(Number(5f64)), Minus, Box::new(Number(10f64)))))
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Minus,
+            Box::new(Number(10f64)),
+        )))
     );
 }
 
@@ -139,15 +135,11 @@ fn test_simple_binary_operation_plus() {
 fn test_simple_binary_operation_multiplication() {
     assert_eq!(
         parse("5*10"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(Number(5f64)),
-                    Multiplication,
-                    Box::new(Number(10f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Multiplication,
+            Box::new(Number(10f64)),
+        )))
     );
 }
 
@@ -155,7 +147,11 @@ fn test_simple_binary_operation_multiplication() {
 fn test_simple_binary_operation_devide() {
     assert_eq!(
         parse("5/10"),
-        Ok(Expression(BinaryOperation(Box::new(Number(5f64)), Divide, Box::new(Number(10f64)))))
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Divide,
+            Box::new(Number(10f64)),
+        )))
     );
 }
 
@@ -163,7 +159,11 @@ fn test_simple_binary_operation_devide() {
 fn test_simple_binary_operation_power() {
     assert_eq!(
         parse("5^10"),
-        Ok(Expression(BinaryOperation(Box::new(Number(5f64)), Power, Box::new(Number(10f64)))))
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Power,
+            Box::new(Number(10f64)),
+        )))
     );
 }
 
@@ -171,11 +171,19 @@ fn test_simple_binary_operation_power() {
 fn test_simple_binary_operation_white_spaces() {
     assert_eq!(
         parse("5 + 10"),
-        Ok(Expression(BinaryOperation(Box::new(Number(5f64)), Plus, Box::new(Number(10f64)))))
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Plus,
+            Box::new(Number(10f64)),
+        )))
     );
     assert_eq!(
         parse("5+10"),
-        Ok(Expression(BinaryOperation(Box::new(Number(5f64)), Plus, Box::new(Number(10f64)))))
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(5f64)),
+            Plus,
+            Box::new(Number(10f64)),
+        )))
     );
 }
 
@@ -183,17 +191,15 @@ fn test_simple_binary_operation_white_spaces() {
 fn test_nested_binary_operations_plus() {
     assert_eq!(
         parse("5 + 10 + 8"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(Box::new(Number(5f64)), Plus, Box::new(Number(10f64))),
-                    ),
-                    Plus,
-                    Box::new(Number(8f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(5f64)),
+                Plus,
+                Box::new(Number(10f64)),
+            )),
+            Plus,
+            Box::new(Number(8f64)),
+        )))
     );
 }
 
@@ -201,17 +207,15 @@ fn test_nested_binary_operations_plus() {
 fn test_nested_binary_operations_plus_minus() {
     assert_eq!(
         parse("5 - 10 + 8"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(Box::new(Number(5f64)), Minus, Box::new(Number(10f64))),
-                    ),
-                    Plus,
-                    Box::new(Number(8f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(5f64)),
+                Minus,
+                Box::new(Number(10f64)),
+            )),
+            Plus,
+            Box::new(Number(8f64)),
+        )))
     );
 
 }
@@ -220,17 +224,15 @@ fn test_nested_binary_operations_plus_minus() {
 fn test_nested_binary_operations_divide() {
     assert_eq!(
         parse("5 / 10 / 8"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(Box::new(Number(5f64)), Divide, Box::new(Number(10f64))),
-                    ),
-                    Divide,
-                    Box::new(Number(8f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(5f64)),
+                Divide,
+                Box::new(Number(10f64)),
+            )),
+            Divide,
+            Box::new(Number(8f64)),
+        )))
     );
 }
 
@@ -238,17 +240,15 @@ fn test_nested_binary_operations_divide() {
 fn test_nested_binary_operations_power() {
     assert_eq!(
         parse("1 ^ 2 ^ 3"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(Number(1f64)),
-                    Power,
-                    Box::new(
-                        BinaryOperation(Box::new(Number(2f64)), Power, Box::new(Number(3f64))),
-                    ),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(1f64)),
+            Power,
+            Box::new(BinaryOperation(
+                Box::new(Number(2f64)),
+                Power,
+                Box::new(Number(3f64)),
+            )),
+        )))
     );
 }
 
@@ -256,17 +256,15 @@ fn test_nested_binary_operations_power() {
 fn test_nested_binary_operations_mixed_operator_priorities_plus_divide() {
     assert_eq!(
         parse("1 + 2 / 3"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(Number(1f64)),
-                    Plus,
-                    Box::new(
-                        BinaryOperation(Box::new(Number(2f64)), Divide, Box::new(Number(3f64))),
-                    ),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(1f64)),
+            Plus,
+            Box::new(BinaryOperation(
+                Box::new(Number(2f64)),
+                Divide,
+                Box::new(Number(3f64)),
+            )),
+        )))
     );
 }
 
@@ -274,21 +272,15 @@ fn test_nested_binary_operations_mixed_operator_priorities_plus_divide() {
 fn test_nested_binary_operations_mixed_operator_priorities_multiplication_minus() {
     assert_eq!(
         parse("1 * 2 - 3"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(
-                            Box::new(Number(1f64)),
-                            Multiplication,
-                            Box::new(Number(2f64)),
-                        )
-                    ),
-                    Minus,
-                    Box::new(Number(3f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(1f64)),
+                Multiplication,
+                Box::new(Number(2f64)),
+            )),
+            Minus,
+            Box::new(Number(3f64)),
+        )))
     );
 }
 
@@ -296,17 +288,15 @@ fn test_nested_binary_operations_mixed_operator_priorities_multiplication_minus(
 fn test_nested_binary_operations_mixed_operator_priorities_power_multiplication() {
     assert_eq!(
         parse("1 ^ 2 * 3"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(Box::new(Number(1f64)), Power, Box::new(Number(2f64))),
-                    ),
-                    Multiplication,
-                    Box::new(Number(3f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(1f64)),
+                Power,
+                Box::new(Number(2f64)),
+            )),
+            Multiplication,
+            Box::new(Number(3f64)),
+        )))
     );
 }
 
@@ -314,33 +304,23 @@ fn test_nested_binary_operations_mixed_operator_priorities_power_multiplication(
 fn test_nested_binary_operations_mixed_operator_priorities_complex() {
     assert_eq!(
         parse("2 * 1 ^ 2 + 3 * 9"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(
-                            Box::new(Number(2f64)),
-                            Multiplication,
-                            Box::new(
-                                BinaryOperation(
-                                    Box::new(Number(1f64)),
-                                    Power,
-                                    Box::new(Number(2f64)),
-                                )
-                            ),
-                        )
-                    ),
-                    Plus,
-                    Box::new(
-                        BinaryOperation(
-                            Box::new(Number(3f64)),
-                            Multiplication,
-                            Box::new(Number(9f64)),
-                        )
-                    ),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(2f64)),
+                Multiplication,
+                Box::new(BinaryOperation(
+                    Box::new(Number(1f64)),
+                    Power,
+                    Box::new(Number(2f64)),
+                )),
+            )),
+            Plus,
+            Box::new(BinaryOperation(
+                Box::new(Number(3f64)),
+                Multiplication,
+                Box::new(Number(9f64)),
+            )),
+        )))
     );
 }
 
@@ -448,15 +428,15 @@ fn test_nested_mixed_operations_white_spaces() {
 fn test_parentheses_left_in_plus_expression() {
     assert_eq!(
         parse("(1 + 2) + 3"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(BinaryOperation(Box::new(Number(1f64)), Plus, Box::new(Number(2f64)))),
-                    Plus,
-                    Box::new(Number(3f64)),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(Number(1f64)),
+                Plus,
+                Box::new(Number(2f64)),
+            )),
+            Plus,
+            Box::new(Number(3f64)),
+        )))
     );
 }
 
@@ -464,15 +444,15 @@ fn test_parentheses_left_in_plus_expression() {
 fn test_parentheses_right_in_plus_expression() {
     assert_eq!(
         parse("1 + (2 + 3)"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(Number(1f64)),
-                    Plus,
-                    Box::new(BinaryOperation(Box::new(Number(2f64)), Plus, Box::new(Number(3f64)))),
-                )
-            )
-        )
+        Ok(Expression(BinaryOperation(
+            Box::new(Number(1f64)),
+            Plus,
+            Box::new(BinaryOperation(
+                Box::new(Number(2f64)),
+                Plus,
+                Box::new(Number(3f64)),
+            )),
+        )))
     );
 }
 
@@ -480,27 +460,23 @@ fn test_parentheses_right_in_plus_expression() {
 fn test_multipe_parentheses_in_plus_expression() {
     assert_eq!(
         parse("(2 + 3) + 1 + (2 + 3)"),
-        Ok(
-            Expression(
-                BinaryOperation(
-                    Box::new(
-                        BinaryOperation(
-                            Box::new(
-                                BinaryOperation(
-                                    Box::new(Number(2f64)),
-                                    Plus,
-                                    Box::new(Number(3f64)),
-                                )
-                            ),
-                            Plus,
-                            Box::new(Number(1f64)),
-                        )
-                    ),
+        Ok(Expression(BinaryOperation(
+            Box::new(BinaryOperation(
+                Box::new(BinaryOperation(
+                    Box::new(Number(2f64)),
                     Plus,
-                    Box::new(BinaryOperation(Box::new(Number(2f64)), Plus, Box::new(Number(3f64)))),
-                )
-            )
-        )
+                    Box::new(Number(3f64)),
+                )),
+                Plus,
+                Box::new(Number(1f64)),
+            )),
+            Plus,
+            Box::new(BinaryOperation(
+                Box::new(Number(2f64)),
+                Plus,
+                Box::new(Number(3f64)),
+            )),
+        )))
     );
 }
 

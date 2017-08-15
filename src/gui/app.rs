@@ -98,12 +98,10 @@ impl App {
             let input_buffer = input.get_buffer();
             let button: Button = self.builder.get_object("calc_button").unwrap();
 
-            button.connect_clicked(
-                move |_| {
-                    handle_execute(&input_buffer, &history);
-                    input.grab_focus();
-                }
-            );
+            button.connect_clicked(move |_| {
+                handle_execute(&input_buffer, &history);
+                input.grab_focus();
+            });
         }
     }
 }
