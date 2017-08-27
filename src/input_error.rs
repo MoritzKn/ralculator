@@ -32,24 +32,11 @@ fn generate_expected_string(expected: &HashSet<&str>) -> String {
 #[test]
 fn test_generate_expected_string() {
     let mut expected = HashSet::new();
-    expected.insert("abc");
     expected.insert("number");
+    expected.insert("abc");
     assert_eq!(
         generate_expected_string(&expected),
         "expected abc or number"
-    );
-}
-
-#[test]
-fn test_generate_expected_string_with_special_characters() {
-    let mut expected = HashSet::new();
-    expected.insert("a");
-    expected.insert("(");
-    expected.insert("0");
-    expected.insert("number");
-    assert_eq!(
-        generate_expected_string(&expected),
-        "expected (, 0, a or number"
     );
 }
 
@@ -64,7 +51,6 @@ fn or_list(items: &[&str]) -> String {
         }
     }
 }
-
 
 #[test]
 fn test_or_list_with_one_entry() {
