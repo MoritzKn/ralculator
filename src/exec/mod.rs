@@ -1,9 +1,9 @@
 mod expression;
 
+use self::expression::execute_expression;
 use input_error::InputError;
 use parser::ast::Root;
 use parser::parse;
-use self::expression::execute_expression;
 
 pub fn parse_and_execute(input: &str) -> Result<f64, InputError> {
     match parse(input) {

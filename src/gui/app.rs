@@ -1,6 +1,8 @@
 use gtk::prelude::*;
-use gtk::{Builder, Button, CssProvider, Entry, EntryBuffer, Error,
-          STYLE_PROVIDER_PRIORITY_APPLICATION, StyleContext, Window};
+use gtk::{
+    Builder, Button, CssProvider, Entry, EntryBuffer, Error, StyleContext, Window,
+    STYLE_PROVIDER_PRIORITY_APPLICATION,
+};
 
 use exec::parse_and_execute;
 use input_error::InputError;

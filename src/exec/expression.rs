@@ -1,4 +1,4 @@
-use parser::ast::{Expression, BinaryOperator, PrefixOperator, SuffixOperator};
+use parser::ast::{BinaryOperator, Expression, PrefixOperator, SuffixOperator};
 
 // TODO: add test
 // TODO: handle semantic errors e.g. 1 / 0

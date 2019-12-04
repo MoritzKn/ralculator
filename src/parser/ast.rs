@@ -1,6 +1,5 @@
 use std::fmt;
 
-
 #[derive(Debug, PartialEq, Clone)]
 pub enum Root {
     Expression(Expression),

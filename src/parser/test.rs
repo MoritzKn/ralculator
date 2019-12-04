@@ -1,10 +1,10 @@
+use super::ast::{BinaryOperator, Expression, PrefixOperator, Root, SuffixOperator};
 use super::parse;
-use super::ast::{Root, Expression, BinaryOperator, PrefixOperator, SuffixOperator};
 
-use self::Root::*;
-use self::Expression::*;
 use self::BinaryOperator::*;
+use self::Expression::*;
 use self::PrefixOperator::*;
+use self::Root::*;
 use self::SuffixOperator::*;
 
 #[test]
@@ -18,15 +18,17 @@ fn test_number_expressions() {
 fn test_prefixed_number_expressions() {
     assert_eq!(
         parse("-42"),
-        Ok(Expression(
-            UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
-        ))
+        Ok(Expression(UnaryPrefixOperation(
+            MinusSign,
+            Box::new(Number(42f64))
+        ),))
     );
     assert_eq!(
         parse("+42"),
-        Ok(Expression(
-            UnaryPrefixOperation(PlusSign, Box::new(Number(42f64))),
-        ))
+        Ok(Expression(UnaryPrefixOperation(
+            PlusSign,
+            Box::new(Number(42f64))
+        ),))
     );
 }
 
@@ -44,18 +46,14 @@ fn test_nested_prefixed_expressions() {
         parse("++42"),
         Ok(Expression(UnaryPrefixOperation(
             PlusSign,
-            Box::new(
-                UnaryPrefixOperation(PlusSign, Box::new(Number(42f64))),
-            ),
+            Box::new(UnaryPrefixOperation(PlusSign, Box::new(Number(42f64))),),
         )))
     );
     assert_eq!(
         parse("+-42"),
         Ok(Expression(UnaryPrefixOperation(
             PlusSign,
-            Box::new(
-                UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
-            ),
+            Box::new(UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),),
         )))
     );
 
@@ -65,9 +63,7 @@ fn test_nested_prefixed_expressions() {
             MinusSign,
             Box::new(UnaryPrefixOperation(
                 PlusSign,
-                Box::new(
-                    UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),
-                ),
+                Box::new(UnaryPrefixOperation(MinusSign, Box::new(Number(42f64))),),
             )),
         )))
     );
@@ -77,9 +73,10 @@ fn test_nested_prefixed_expressions() {
 fn test_suffixed_number_expressions() {
     assert_eq!(
         parse("5!"),
-        Ok(Expression(
-            UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
-        ))
+        Ok(Expression(UnarySuffixOperation(
+            Box::new(Number(5f64)),
+            Factorial
+        ),))
     );
 }
 
@@ -94,9 +91,7 @@ fn test_nested_suffixed_expressions() {
     assert_eq!(
         parse("5!!"),
         Ok(Expression(UnarySuffixOperation(
-            Box::new(
-                UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
-            ),
+            Box::new(UnarySuffixOperation(Box::new(Number(5f64)), Factorial),),
             Factorial,
         )))
     );
@@ -111,9 +106,7 @@ fn test_nested_unary_expressions() {
             MinusSign,
             Box::new(UnaryPrefixOperation(
                 PlusSign,
-                Box::new(
-                    UnarySuffixOperation(Box::new(Number(5f64)), Factorial),
-                ),
+                Box::new(UnarySuffixOperation(Box::new(Number(5f64)), Factorial),),
             )),
         )))
     );
@@ -217,7 +210,6 @@ fn test_nested_binary_operations_plus_minus() {
             Box::new(Number(8f64)),
         )))
     );
-
 }
 
 #[test]
@@ -332,7 +324,6 @@ fn test_nested_mixed_operations_white_spaces() {
     assert!(parse("-5+5*5").is_ok());
     assert!(parse("- 5 + 5 * 5").is_ok());
 }
-
 
 // FIXME: make tests pass
 // #[test]
@@ -479,7 +470,6 @@ fn test_multipe_parentheses_in_plus_expression() {
         )))
     );
 }
-
 
 #[test]
 fn test_empty_parentheses() {

@@ -1,7 +1,7 @@
 #![allow(unknown_lints, never_loop)]
 
-use std::option::Option::{Some, None};
 use super::ast::*;
+use std::option::Option::{None, Some};
 
 /// `IncompleteExpression` is used temporary to avoid left recursion
 #[derive(Debug, PartialEq)]
@@ -15,12 +15,10 @@ fn finish_expression(left: Expression, rest: Option<Box<IncompleteExpression>>) 
         Some(rest) => {
             let rest = *rest;
             match rest {
-                IncompleteExpression::UnarySuffixOperation(op, new_rest) => {
-                    finish_expression(
-                        Expression::UnarySuffixOperation(Box::new(left), op),
-                        new_rest,
-                    )
-                }
+                IncompleteExpression::UnarySuffixOperation(op, new_rest) => finish_expression(
+                    Expression::UnarySuffixOperation(Box::new(left), op),
+                    new_rest,
+                ),
             }
         }
     }
