@@ -37,7 +37,7 @@ pub fn execute_expression(expression: Expression) -> f64 {
 
 fn factorial(value: u64) -> u64 {
     let mut curr = 1;
-    for i in 1..(value + 1) {
+    for i in 1..=(value + 1) {
         curr *= i;
     }
     curr

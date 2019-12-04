@@ -3,6 +3,7 @@ use gtk::{
     Builder, Button, CssProvider, Entry, EntryBuffer, Error, StyleContext, Window,
     STYLE_PROVIDER_PRIORITY_APPLICATION,
 };
+use glib::signal::SignalHandlerId;
 
 use exec::parse_and_execute;
 use input_error::InputError;
@@ -58,7 +59,7 @@ impl App {
         app
     }
 
-    pub fn on_close<F: Fn() -> Inhibit + 'static>(&self, f: F) -> u64 {
+    pub fn on_close<F: Fn() -> Inhibit + 'static>(&self, f: F) -> SignalHandlerId {
         self.window.connect_delete_event(move |_, _| f())
     }
 
@@ -110,7 +111,8 @@ impl App {
 
 fn load_css() -> Result<CssProvider, Error> {
     let provider = CssProvider::new();
-    match provider.load_from_data(STYLE_CSS) {
+
+    match provider.load_from_data(STYLE_CSS.as_bytes()) {
         Ok(_) => Ok(provider),
         Err(err) => Err(err),
     }

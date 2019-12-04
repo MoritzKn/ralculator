@@ -22,7 +22,7 @@ impl InputError {
 }
 
 fn generate_expected_string(expected: &HashSet<&str>) -> String {
-    let mut expected = expected.iter().map(|s| *s).collect::<Vec<&str>>();
+    let mut expected: Vec<&str> = expected.iter().copied().collect();
 
     expected.sort();
 

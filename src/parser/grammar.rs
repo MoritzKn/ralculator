@@ -1,4 +1,4 @@
-#![allow(unknown_lints, never_loop)]
+#![allow(warnings, clippy::all)]
 
 use super::ast::*;
 use std::option::Option::{None, Some};
