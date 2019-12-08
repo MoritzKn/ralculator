@@ -1,16 +1,19 @@
+sudo: false
 language: rust
 cache: cargo
 rust:
   - stable
   - beta
   - nightly
+
 matrix:
   allow_failures:
     - rust: nightly
-sudo: false
+
 env:
   global:
     - LD_LIBRARY_PATH=/usr/local/lib
+
 addons:
   apt:
     packages:
@@ -19,8 +22,7 @@ addons:
 install:
 
 before_script:
-  - export PATH="$PATH:$HOME/.cargo/bin"
-  - which rustfmt || cargo install rustfmt
+  - rustup component add rustfmt
 
   - WD="$PWD"
   - cd "$HOME"
