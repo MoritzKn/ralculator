@@ -1,9 +1,9 @@
+use glib::signal::SignalHandlerId;
 use gtk::prelude::*;
 use gtk::{
     Builder, Button, CssProvider, Entry, EntryBuffer, Error, StyleContext, Window,
     STYLE_PROVIDER_PRIORITY_APPLICATION,
 };
-use glib::signal::SignalHandlerId;
 
 use exec::parse_and_execute;
 use input_error::InputError;

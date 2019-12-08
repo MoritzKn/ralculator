@@ -2,8 +2,8 @@
 extern crate log;
 extern crate env_logger;
 
-extern crate gtk;
 extern crate glib;
+extern crate gtk;
 
 mod exec;
 mod gui;
