@@ -33,6 +33,6 @@ before_script:
   - export LD_LIBRARY_PATH="$HOME/local/lib/"
 
 script:
-  - cargo fmt -- --write-mode=diff
+  - cargo fmt -- --check
   - cargo build
   - cargo test
