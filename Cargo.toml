@@ -1,5 +1,5 @@
 [package]
-authors = ["MoritzKn <moritz.kneilmann@gmx.de>"]
+authors = ["MoritzKn"]
 build = "build.rs"
 license = "MIT"
 name = "ralculator"
